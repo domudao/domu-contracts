@@ -14,7 +14,9 @@ import "./InitializedProxy.sol";
 import "./ERC721PropertyToken.sol";
 import "./ERC721PropertyTokenVault.sol";
 
-contract ERC721VaultFactory is Ownable {
+contract ERC721VaultFactory is AccessControl {
+  bytes32 public constant VALIDATOR_ROLE = keccak256("VALIDATOR_ROLE");
+
   /// @notice the number of PropertyVaults
   uint256 public propertyVaultCount;
 
@@ -33,6 +35,8 @@ contract ERC721VaultFactory is Ownable {
   event Mint(address indexed vault, uint256 id);
 
   constructor(address _settings, address _tokenLogic) {
+    _grantRole(VALIDATOR_ROLE, msg.sender);
+    _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     settings = _settings;
     tokenLogic = _tokenLogic;
     vaultLogic = address(new ERC721PropertyTokenVault(_settings));
@@ -42,7 +46,7 @@ contract ERC721VaultFactory is Ownable {
   // @param _to the address to mint tokens to
   // @param _id the uint256 ID of the token
   // @return the ID of the token
-  function mint(address _to, uint256 _id) external onlyOwner returns(uint256) {    
+  function mint(address _to, uint256 _id) external onlyRole(VALIDATOR_ROLE) returns(uint256) {    
     require (!Pausable(settings).paused(), "Pausable: paused");
 
     bytes memory _initializationCalldata =

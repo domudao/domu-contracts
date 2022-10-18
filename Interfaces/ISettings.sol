@@ -24,9 +24,9 @@ interface ISettings {
     // Transfer rules
     function canTransferWithOutstandingEquity() external view returns(bool);
     
-    function enableCanTransferWithOutstandingEquity() external;
+    function enableTransferWithOutstandingEquity() external;
 
-    function disableCanTransferWithOutstandingEquity() external;
+    function disableTransferWithOutstandingEquity() external;
 
     function lockUpPeriodAfterMint() external view returns(uint256);
 

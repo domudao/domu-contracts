@@ -51,6 +51,7 @@ contract ERC721PropertyTokenVault is Initializable, ERC20Upgradeable, AccessCont
     }
 
     function updatePropertyOwner(address newOwner) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        require (!Pausable(settings).paused(), "Pausable: paused");
         // Ensure that the tokens are all owned by the Property Owner or the Vault to transfer ownership
         uint256 totalOwnerBalance = balanceOf(propertyOwner) + balanceOf(address(this));
         if (totalOwnerBalance < (totalSupply())) {

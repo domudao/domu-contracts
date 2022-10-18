@@ -55,7 +55,7 @@ contract Settings is ISettings, Pausable, AccessControl {
     address[] public whitelistedBuyers;
 
     /// @notice flag as to whether the NFT ownership can be transferred without reclaiming ERC20s
-    bool public canTransferWithOutstandingEquity;   
+    bool public canTransferWithOutstandingEquity = true;   
 
     /* Events */
 
