@@ -46,7 +46,7 @@ contract ERC721VaultFactory is AccessControl {
   // @param _to the address to mint tokens to
   // @param _id the uint256 ID of the token
   // @return the ID of the token
-  function mint(address _to, uint256 _id) external onlyRole(VALIDATOR_ROLE) returns(uint256) {    
+  function mint(address _to, uint256 _id) external onlyRole(VALIDATOR_ROLE) returns(uint256) {
     require (!Pausable(settings).paused(), "Pausable: paused");
 
     bytes memory _initializationCalldata =

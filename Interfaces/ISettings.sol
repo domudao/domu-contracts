@@ -42,4 +42,9 @@ interface ISettings {
     function feeReceiver() external view returns(address payable);
     
     function setFeeReceiver(address payable feeReceiver) external returns(address payable);
+
+    // Roles
+    function hasAdminRole() external view returns(bool);
+
+    function hasManagementRole() external view returns(bool);
 }

@@ -123,6 +123,7 @@ contract Settings is ISettings, Pausable, AccessControl {
         whitelistedBuyers.push(msg.sender);
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MANAGEMENT_ROLE, msg.sender);
+        _grantRole(VALIDATOR_ROLE, msg.sender);
     }
 
     function getWhitelistedBuyers() external view returns(address[] memory) {
@@ -142,7 +143,7 @@ contract Settings is ISettings, Pausable, AccessControl {
         lockUpPeriodAfterMint = _length;
     }
 
-    function setLockUpPeriodAfterTransfer(uint256 _length) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setLockUpPeriodAfterTransfer(uint256 _length) external onlyRole(MANAGEMENT_ROLE) {
         require(_length >= minLockUpPeriod, "lockup period too low");
         require(_length <= maxLockUpPeriod, "lockup period too long");
 
@@ -152,7 +153,7 @@ contract Settings is ISettings, Pausable, AccessControl {
     }
 
     /* Fees */
-    function setFeePercentage(uint256 _fee) external onlyRole(DEFAULT_ADMIN_ROLE) returns (uint256) {
+    function setFeePercentage(uint256 _fee) external onlyRole(MANAGEMENT_ROLE) returns (uint256) {
         require(_fee <= maxFeePercentage, "percentage too high");
 
         emit UpdateFeePercentage(_msgSender(), maxFeePercentage, _fee);
@@ -162,7 +163,7 @@ contract Settings is ISettings, Pausable, AccessControl {
         return feePercentage;
     }
 
-    function setFeeReceiver(address payable _receiver) external onlyRole(DEFAULT_ADMIN_ROLE) returns (address payable) {
+    function setFeeReceiver(address payable _receiver) external onlyRole(MANAGEMENT_ROLE) returns (address payable) {
         require(_receiver != address(0), "fees cannot go to 0 address");
 
         emit UpdateFeeReceiver(_msgSender(), feeReceiver, _receiver);
@@ -194,19 +195,19 @@ contract Settings is ISettings, Pausable, AccessControl {
         return false;
     }
 
-    function addBuyerToWhitelist(address buyer) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function addBuyerToWhitelist(address buyer) external onlyRole(MANAGEMENT_ROLE) {
         if (!this.isBuyerWhitelisted(buyer)) {
             emit AddBuyerToWhitelist(_msgSender(), buyer);
             whitelistedBuyers.push(buyer);
         }
     }
 
-    function enableTransferWithOutstandingEquity() external onlyRole(DEFAULT_ADMIN_ROLE)  {
+    function enableTransferWithOutstandingEquity() external onlyRole(MANAGEMENT_ROLE)  {
         emit TransferWithOutstandingEquityEnabled(_msgSender());
         canTransferWithOutstandingEquity = true;
     }
 
-    function disableTransferWithOutstandingEquity() external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function disableTransferWithOutstandingEquity() external onlyRole(MANAGEMENT_ROLE) {
         emit TransferWithOutstandingEquityDisabled(_msgSender());
         canTransferWithOutstandingEquity = false;
     }
