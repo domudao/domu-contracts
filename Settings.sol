@@ -123,7 +123,6 @@ contract Settings is ISettings, Pausable, AccessControl {
         whitelistedBuyers.push(msg.sender);
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MANAGEMENT_ROLE, msg.sender);
-        _grantRole(VALIDATOR_ROLE, msg.sender);
     }
 
     function getWhitelistedBuyers() external view returns(address[] memory) {
