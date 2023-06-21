@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // contracts/PropertyToken.sol
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
